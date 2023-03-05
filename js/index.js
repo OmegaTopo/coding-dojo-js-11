@@ -10,6 +10,7 @@ function addTask() {
 	const message = prompt('Digite sua mensagem: ');
 	document.getElementById('hidden').style.display = 'none'
 	reminderList.appendChild(createLi(hour, message));
+	ordenaData();
 }
 
 function createLi(hour, message) {
@@ -18,15 +19,10 @@ function createLi(hour, message) {
 	createItem.classList.add(`date-${date.getFullYear()}${date.getMonth()}`);
 	createItem.innerHTML = `
   <div>${message}</div>
-  <div>${hour}</div>
+  <span class = hora >${hour}</span>
  `;
 	createItem.classList;
 	return createItem;
-}
-
-function ordenaPorHora(arr){
-    let tasksOrdenadas = Array.from(arr.sort((a,b)=>a-b));	
-    return tasksOrdenadas;
 }
 
 const date = new Date();
@@ -45,7 +41,6 @@ function updateDate() {
             document.getElementById('hidden').style.display = 'block'
 		}
 	}
-	tasksUl = ordenaPorHora(Array.from(tasksUl));
 }
 
 updateDate();
@@ -58,4 +53,21 @@ function addMonthInDate() {
 function minusMonthInDate() {
 	date.setMonth(date.getMonth() - 1);
 	updateDate();
+}
+
+function ordenaData(){
+var elements = document.querySelectorAll('.reminder-item.date-' + date.getFullYear() + date.getMonth());
+console.log(elements);
+var sortable = [];
+for (i=0;i<elements.length;i++){
+  sortable.push([elements[i].querySelectorAll('.hora').innerText]);
+}
+console.log(sortable);
+sortable.sort(function(a, b) {return a[1] - b[1]});
+console.log(sortable);
+container = document.querySelector('.reminder-list');
+//container.innerHTML = "";
+sortable.forEach(function(item) {
+  container.appendChild(item[0]);
+	});
 }
